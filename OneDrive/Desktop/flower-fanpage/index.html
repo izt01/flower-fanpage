@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌻 日向坂46 祝花プロジェクト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=M+PLUS+Rounded+1c:wght@400;700;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
+<style>
+:root{
+  --hina:#f59e0b;
+  --hina-deep:#b45309;
+  --hina-light:#fef9c3;
+  --hina-pale:#fffbeb;
+  --hina-bright:#fbbf24;
+  --sky:#38bdf8;
+  --sky-light:#e0f2fe;
+  --white:#ffffff;
+  --bg:#fffbf0;
+  --text:#1c1006;
+  --muted:#78614a;
+  --radius:20px;
+  --radius-sm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'M PLUS Rounded 1c','Kosugi Maru','Noto Sans JP',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* カーソル */
+.cursor{
+  position:fixed;width:16px;height:16px;
+  background:var(--hina);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .12s ease,background .2s;
+  mix-blend-mode:multiply;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:2px solid var(--hina-deep);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:left .3s ease,top .3s ease;
+}
+
+/* 浮遊エモジ */
+.floaties{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.floaty{
+  position:absolute;font-size:1.5rem;opacity:0;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(110vh) rotate(0deg);opacity:0;}
+  10%{opacity:.45;}
+  90%{opacity:.25;}
+  100%{transform:translateY(-10vh) rotate(360deg);opacity:0;}
+}
+
+/* ナビ */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,251,240,.9);
+  backdrop-filter:blur(14px);
+  border-bottom:2.5px solid #fcd34d;
+  padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.nav-logo{
+  font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+  font-size:1.25rem;letter-spacing:.02em;
+  color:var(--hina-deep);
+  display:flex;align-items:center;gap:8px;
+}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+.nav-links a{
+  text-decoration:none;font-size:.8rem;font-weight:700;
+  padding:7px 16px;border-radius:50px;
+  color:var(--hina-deep);border:2px solid #fcd34d;
+  background:white;transition:all .2s;
+}
+.nav-links a:hover{background:var(--hina);color:white;border-color:var(--hina);transform:translateY(-2px);}
+
+/* ヒーロー */
+.hero{
+  position:relative;z-index:1;
+  min-height:95vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 24px 60px;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 20%,#fef9c3,transparent),
+    radial-gradient(ellipse 60% 50% at 85% 80%,#e0f2fe,transparent),
+    radial-gradient(ellipse 50% 70% at 80% 10%,#fce7f3,transparent);
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--hina);color:white;
+  border-radius:50px;padding:8px 22px;
+  font-size:.78rem;font-weight:900;letter-spacing:.1em;
+  margin-bottom:28px;
+  box-shadow:4px 4px 0 var(--hina-deep);
+  animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn{from{transform:scale(0) rotate(-6deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+.hero h1{
+  font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+  font-weight:900;
+  font-size:clamp(2.8rem,8vw,6.5rem);
+  line-height:1.1;margin-bottom:16px;
+  color:var(--hina-deep);
+  animation:slideUp .7s .1s cubic-bezier(.22,1,.36,1) both;
+}
+.hero h1 .accent{
+  display:block;
+  color:var(--hina-deep);
+  -webkit-text-stroke:2px var(--hina-deep);
+  paint-order:stroke fill;
+  background:linear-gradient(135deg,#f59e0b,#fb923c,#fbbf24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:none;opacity:1;}}
+.hero-sub{
+  font-size:clamp(.85rem,2vw,1.05rem);
+  color:var(--muted);line-height:2;
+  max-width:500px;margin:0 auto 40px;
+  animation:slideUp .7s .2s cubic-bezier(.22,1,.36,1) both;
+}
+.hero-btns{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  animation:slideUp .7s .3s cubic-bezier(.22,1,.36,1) both;
+}
+.btn-main{
+  padding:14px 34px;border-radius:50px;font-weight:900;font-size:1rem;
+  background:var(--hina);color:white;border:none;cursor:pointer;
+  box-shadow:4px 4px 0 var(--hina-deep);
+  transition:all .2s;
+}
+.btn-main:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--hina-deep);background:var(--hina-bright);}
+.btn-sub{
+  padding:14px 34px;border-radius:50px;font-weight:900;font-size:1rem;
+  background:white;color:var(--hina-deep);border:2.5px solid var(--hina);cursor:pointer;
+  transition:all .2s;
+}
+.btn-sub:hover{background:var(--hina-light);transform:translateY(-2px);}
+.hero-scroll{
+  margin-top:60px;font-size:.75rem;font-weight:700;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fadeIn 1s .9s both;
+}
+.scroll-dot{
+  width:8px;height:8px;background:var(--hina);border-radius:50%;
+  animation:scrollBounce 1.4s infinite;
+}
+.scroll-dot:nth-child(2){animation-delay:.2s;background:var(--hina-bright);}
+.scroll-dot:nth-child(3){animation-delay:.4s;background:#fcd34d;}
+.scroll-dots{display:flex;gap:6px;justify-content:center;}
+@keyframes scrollBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* セクション共通 */
+section{position:relative;z-index:1;padding:100px 24px;}
+.container{max-width:1100px;margin:0 auto;}
+.sec-header{text-align:center;margin-bottom:56px;}
+.sec-badge{
+  display:inline-block;
+  background:var(--hina);color:white;
+  font-size:.7rem;font-weight:900;letter-spacing:.18em;
+  padding:5px 18px;border-radius:50px;
+  margin-bottom:14px;transform:rotate(-1.5deg);
+}
+.sec-title{
+  font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;
+  font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.2;
+  color:var(--text);
+}
+.sec-title .hl{
+  background:linear-gradient(120deg,var(--hina-deep),var(--hina));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s;}
+.reveal.vis{opacity:1;transform:none;}
+
+/* ===== 祝花とは セクション ===== */
+.about{background:white;border-top:3px dashed #fcd34d;}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.about-visual{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;height:360px;
+}
+.av-card{
+  border-radius:var(--radius);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  font-size:3rem;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);cursor:default;
+  border:2.5px solid transparent;
+}
+.av-card:hover{transform:scale(1.06) rotate(4deg);}
+.av-card:nth-child(1){background:var(--hina-light);grid-row:span 2;border-color:#fcd34d;font-size:4rem;}
+.av-card:nth-child(2){background:#e0f2fe;border-color:#7dd3fc;}
+.av-card:nth-child(3){background:#fce7f3;border-color:#f9a8d4;}
+.av-card small{font-size:.7rem;font-weight:700;color:var(--muted);}
+.about-text h2{font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);margin-bottom:16px;color:var(--hina-deep);line-height:1.25;}
+.about-text p{color:var(--muted);line-height:2;font-size:.93rem;margin-bottom:20px;}
+.about-text strong{color:var(--hina-deep);}
+.about-stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;}
+.stat-pill{
+  background:var(--hina-pale);border:2.5px solid #fcd34d;
+  border-radius:var(--radius-sm);padding:12px 20px;text-align:center;
+  transition:transform .2s;
+}
+.stat-pill:hover{transform:translateY(-4px);}
+.stat-num{font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;font-size:2rem;color:var(--hina-deep);display:block;}
+.stat-lbl{font-size:.68rem;font-weight:700;color:var(--muted);}
+
+/* ===== 過去の活動 ===== */
+.history{
+  background:
+    radial-gradient(ellipse 70% 50% at 5% 50%,var(--hina-light),transparent),
+    var(--bg);
+  border-top:3px dashed #fcd34d;
+}
+.history-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.hist-card{
+  background:white;border-radius:var(--radius);
+  border:2px solid #fde68a;
+  overflow:hidden;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;
+}
+.hist-card:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:6px 10px 0 #fcd34d;}
+.hist-img{
+  height:160px;display:flex;align-items:center;justify-content:center;
+  font-size:4.5rem;border-bottom:2px solid #fde68a;
+  position:relative;
+}
+.hist-img .hist-badge{
+  position:absolute;top:10px;left:10px;
+  background:var(--hina);color:white;
+  font-size:.65rem;font-weight:900;padding:4px 12px;border-radius:50px;
+  letter-spacing:.08em;
+}
+.hist-body{padding:18px 20px;}
+.hist-body h3{font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;font-size:1.1rem;color:var(--hina-deep);margin-bottom:6px;}
+.hist-body p{font-size:.82rem;color:var(--muted);line-height:1.7;}
+.hist-meta{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;
+}
+.hist-tag{
+  background:var(--hina-light);color:var(--hina-deep);
+  font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:50px;
+  border:1.5px solid #fcd34d;
+}
+
+/* ===== 参加の流れ ===== */
+.how{background:white;border-top:3px dashed #fcd34d;}
+.steps-wrap{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;
+  position:relative;
+}
+.step-card{
+  background:var(--hina-pale);border-radius:var(--radius);
+  border:2.5px solid #fde68a;
+  padding:32px 24px;text-align:center;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+}
+.step-card:hover{transform:translateY(-6px);}
+.step-num{
+  position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  background:var(--hina);color:white;
+  font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;font-size:1.1rem;
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:3px 3px 0 var(--hina-deep);
+}
+.step-icon{font-size:2.8rem;margin:10px 0 16px;}
+.step-card h3{font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;font-size:1.15rem;color:var(--hina-deep);margin-bottom:10px;}
+.step-card p{font-size:.85rem;color:var(--muted);line-height:1.8;}
+
+/* ===== コンセプト ===== */
+.concept{
+  background:linear-gradient(135deg,#b45309,#d97706,#f59e0b);
+  color:white;
+}
+.concept-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.concept-text .sec-badge{background:rgba(255,255,255,.2);color:white;}
+.concept-text .sec-title{color:white;}
+.concept-text .sec-title .hl{
+  -webkit-text-fill-color:transparent;
+  background:linear-gradient(90deg,#fef9c3,#fde68a);
+  -webkit-background-clip:text;
+}
+.concept-desc{line-height:2;opacity:.92;font-size:.95rem;margin-top:20px;}
+.concept-cards{display:flex;flex-direction:column;gap:16px;}
+.cc-card{
+  background:rgba(255,255,255,.15);backdrop-filter:blur(8px);
+  border-radius:var(--radius);border:1.5px solid rgba(255,255,255,.3);
+  padding:18px 22px;display:flex;align-items:flex-start;gap:16px;
+  transition:background .2s,transform .2s;
+}
+.cc-card:hover{background:rgba(255,255,255,.22);transform:translateX(4px);}
+.cc-icon{font-size:1.8rem;flex-shrink:0;}
+.cc-text h4{font-weight:900;font-size:.92rem;margin-bottom:4px;}
+.cc-text p{font-size:.8rem;opacity:.85;line-height:1.6;}
+
+/* ===== FAQ ===== */
+.faq{
+  background:
+    radial-gradient(ellipse 60% 50% at 90% 50%,var(--hina-light),transparent),
+    var(--bg);
+  border-top:3px dashed #fcd34d;
+}
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:720px;margin:0 auto;}
+.faq-item{
+  background:white;border-radius:var(--radius-sm);
+  border:2px solid #fde68a;overflow:hidden;
+}
+.faq-q{
+  width:100%;padding:18px 22px;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  cursor:pointer;font-family:inherit;font-size:.92rem;font-weight:700;
+  color:var(--hina-deep);text-align:left;
+}
+.faq-q::after{
+  content:'＋';font-size:1.2rem;color:var(--hina);flex-shrink:0;
+  transition:transform .3s;
+}
+.faq-item.open .faq-q::after{content:'－';}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  padding:0 22px;
+}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:18px;}
+.faq-a p{font-size:.86rem;color:var(--muted);line-height:1.9;}
+
+/* フッター */
+footer{
+  background:var(--hina-deep);color:rgba(255,255,255,.85);
+  text-align:center;padding:40px 24px;
+  font-size:.78rem;line-height:2;
+}
+.footer-logo{
+  font-family:'M PLUS Rounded 1c','Kosugi Maru',sans-serif;font-size:1.2rem;
+  color:white;display:block;margin-bottom:10px;
+}
+
+/* レスポンシブ */
+@media(max-width:768px){
+  nav{padding:12px 16px;}
+  .about-inner,.concept-inner{grid-template-columns:1fr;}
+  .about-visual{height:220px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="floaties" id="floaties"></div>
+
+<nav>
+  <div class="nav-logo">🌻 日向坂46 祝花PJ</div>
+  <div class="nav-links">
+    <a href="#about">祝花とは</a>
+    <a href="#history">過去の活動</a>
+    <a href="#how">参加の流れ</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<!-- ヒーロー -->
+<section class="hero">
+  <div class="hero-badge">🌻 FAN PROJECT</div>
+  <h1>
+    <span>推しに届ける</span>
+    <span class="accent">祝花プロジェクト</span>
+  </h1>
+  <p class="hero-sub">
+    日向坂46のコンサート・ライブ・握手会などの特別な日に<br>
+    ファン仲間と力を合わせてフラワースタンドを贈る<br>
+    <strong>日向坂46ファン有志による非公式活動</strong>です🌸
+  </p>
+  <div class="hero-btns">
+    <button class="btn-main" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">💐 申し込みはこちら</button>
+    <button class="btn-sub" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">祝花って何？</button>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-dots">
+      <div class="scroll-dot"></div>
+      <div class="scroll-dot"></div>
+      <div class="scroll-dot"></div>
+    </div>
+    <span>スクロールして詳しく見る</span>
+  </div>
+</section>
+
+<!-- 祝花とは -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-badge">🌻 WHAT IS "SHUKUBANA"</div>
+      <h2 class="sec-title">「<span class="hl">祝花</span>」って何？</h2>
+    </div>
+    <div class="about-inner">
+      <div class="about-visual reveal">
+        <div class="av-card">🌻<small>フラワースタンド</small></div>
+        <div class="av-card">🌸<small>生誕祭</small></div>
+        <div class="av-card">🎀<small>ライブ</small></div>
+      </div>
+      <div class="about-text reveal">
+        <h2>ファン全員で贈る<br>特別な花束🌻</h2>
+        <p>
+          「祝花（しゅくばな）」とは、アイドルグループのコンサートや握手会・生誕祭などの
+          特別なイベントに合わせて、ファン有志が費用を出し合って制作・展示する
+          <strong>フラワースタンド（祝い花）</strong>のことです。
+        </p>
+        <p>
+          会場の入口や指定スペースに大きな花のディスプレイが並ぶのを見たことはありませんか？
+          あれがファンによる「祝花」です。メンバーへの感謝と愛情を、
+          <strong>目に見えるカタチで届ける</strong>文化として定着しています。
+        </p>
+        <p>
+          日向坂46専用のこのプロジェクトでは、ひなたのメンバーカラー・ひまわりをテーマに、
+          毎回こだわりのデザインでお届けしています🌻
+        </p>
+        <div class="about-stats">
+          <div class="stat-pill"><span class="stat-num">23+</span><span class="stat-lbl">日向坂46実績</span></div>
+          <div class="stat-pill"><span class="stat-num">300+</span><span class="stat-lbl">累計参加ファン</span></div>
+          <div class="stat-pill"><span class="stat-num">2019</span><span class="stat-lbl">活動開始年</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 過去の活動 -->
+<section class="history" id="history">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-badge">📸 PAST ACTIVITIES</div>
+      <h2 class="sec-title">過去の<span class="hl">活動実績</span></h2>
+    </div>
+    <div class="history-grid">
+
+      <div class="hist-card reveal">
+        <div class="hist-img" style="background:#fef9c3;">
+          🌻
+          <span class="hist-badge">フラスタ</span>
+        </div>
+        <div class="hist-body">
+          <h3>3周年記念ライブ 祝花</h3>
+          <p>2022年の3rdアニバーサリーライブ「3回目のひな誕祭」に合わせて展示。ひまわりをモチーフにした特大フラワースタンドがファンから大好評！</p>
+          <div class="hist-meta">
+            <span class="hist-tag">📍 東京ドーム</span>
+            <span class="hist-tag">2022.03</span>
+            <span class="hist-tag">参加者62名</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hist-card reveal">
+        <div class="hist-img" style="background:#e0f2fe;">
+          🎀
+          <span class="hist-badge">生誕祭</span>
+        </div>
+        <div class="hist-body">
+          <h3>メンバー生誕祭 祝花</h3>
+          <p>推しメンの生誕祭イベントに合わせて、メンバーカラーをテーマにした可愛らしいアレンジメントをお届け。本人からもお礼のコメントが！</p>
+          <div class="hist-meta">
+            <span class="hist-tag">📍 幕張メッセ</span>
+            <span class="hist-tag">2022.08</span>
+            <span class="hist-tag">参加者38名</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hist-card reveal">
+        <div class="hist-img" style="background:#fce7f3;">
+          🌸
+          <span class="hist-badge">ツアー</span>
+        </div>
+        <div class="hist-body">
+          <h3>全国ツアー 会場別フラスタ</h3>
+          <p>全国4都市のツアー会場それぞれで祝花を実施。各地のファンと現地コーディネートで、統一デザインの祝花を展開する大規模企画！</p>
+          <div class="hist-meta">
+            <span class="hist-tag">📍 全国4会場</span>
+            <span class="hist-tag">2023.04〜06</span>
+            <span class="hist-tag">参加者120名+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hist-card reveal">
+        <div class="hist-img" style="background:#d1fae5;">
+          🎊
+          <span class="hist-badge">特別企画</span>
+        </div>
+        <div class="hist-body">
+          <h3>卒業コンサート 餞の花</h3>
+          <p>大切なメンバーの卒業公演に「今までありがとう」の気持ちを込めた祝花を贈る特別企画。感謝のメッセージカードも添えて展示しました。</p>
+          <div class="hist-meta">
+            <span class="hist-tag">📍 さいたまSSA</span>
+            <span class="hist-tag">2023.09</span>
+            <span class="hist-tag">参加者85名</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hist-card reveal">
+        <div class="hist-img" style="background:#ede9fe;">
+          💜
+          <span class="hist-badge">記念日</span>
+        </div>
+        <div class="hist-body">
+          <h3>5周年記念 大型フラスタ</h3>
+          <p>グループ5周年を祝う節目の記念企画。通常の倍サイズの特大フラワースタンドを制作し、メンバー全員へ感謝のメッセージを込めました。</p>
+          <div class="hist-meta">
+            <span class="hist-tag">📍 国立代々木競技場</span>
+            <span class="hist-tag">2024.02</span>
+            <span class="hist-tag">参加者150名+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hist-card reveal">
+        <div class="hist-img" style="background:#fef3c7;">
+          🏆
+          <span class="hist-badge">直近</span>
+        </div>
+        <div class="hist-body">
+          <h3>春のアリーナツアー 2025</h3>
+          <p>最新！2025年春のアリーナツアーに合わせた企画。今回も皆さんの参加お待ちしています。現在参加者募集中です🌻</p>
+          <div class="hist-meta">
+            <span class="hist-tag">📍 全国3会場予定</span>
+            <span class="hist-tag">2025.04〜</span>
+            <span class="hist-tag">🟡 募集中！</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 参加の流れ -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-badge">✨ HOW IT WORKS</div>
+      <h2 class="sec-title"><span class="hl">参加の流れ</span></h2>
+    </div>
+    <div class="steps-wrap">
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <div class="step-icon">📅</div>
+        <h3>イベントを確認</h3>
+        <p>コンサート・握手会・生誕祭などの開催情報を確認。本ページで企画告知が出たらチェック！</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">2</div>
+        <div class="step-icon">📝</div>
+        <h3>申し込みフォーム記入</h3>
+        <p>このページの申し込みフォームから必要事項を入力。応援メッセージも一緒に書いてね！</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">3</div>
+        <div class="step-icon">💸</div>
+        <h3>費用を振り込み</h3>
+        <p>申し込み後に担当者からご連絡。参加人数に応じてお一人あたり1,000〜3,000円程度（企画による）。</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">4</div>
+        <div class="step-icon">🎨</div>
+        <h3>デザイン確認</h3>
+        <p>花屋さんとデザイン詰め。参加者全員にデザイン案をお知らせして、みんなで作り上げます。</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">5</div>
+        <div class="step-icon">🌻</div>
+        <h3>当日！会場で飾る</h3>
+        <p>当日は会場指定スペースに展示。写真を撮って参加者全員にシェアします📸</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- コンセプト -->
+<section class="concept">
+  <div class="container">
+    <div class="concept-inner">
+      <div class="concept-text reveal">
+        <div class="sec-badge">💛 WHY WE DO THIS</div>
+        <h2 class="sec-title">なぜ、<span class="hl">花を贈るの？</span></h2>
+        <p class="concept-desc">
+          日向坂46のメンバーは、いつも太陽みたいな笑顔でファンを照らしてくれます。
+          その「ありがとう」をちゃんと伝えたい。言葉だけじゃ足りないから、
+          花にして、目に見えるカタチで届けたい——それが、この活動の原点です。<br><br>
+          一人ではなかなか難しい花束も、ひなたのファン同士が集まれば大きな花束になる。
+          同じ推しを愛する人たちと「一緒に何かを作る」こと自体が、かけがえない思い出になります🌻
+        </p>
+      </div>
+      <div class="concept-cards reveal">
+        <div class="cc-card"><span class="cc-icon">🌻</span><div class="cc-text"><h4>推しへの「ありがとう」を目に見えるカタチで</h4><p>花になって会場に残る、特別な愛のかたち。</p></div></div>
+        <div class="cc-card"><span class="cc-icon">🤝</span><div class="cc-text"><h4>ひな推し同士のつながりが生まれる</h4><p>一緒に企画することで生まれる、ファン仲間との絆。</p></div></div>
+        <div class="cc-card"><span class="cc-icon">📸</span><div class="cc-text"><h4>特別な日の記念になる</h4><p>写真に残して、いつまでも思い出として語れる体験に。</p></div></div>
+        <div class="cc-card"><span class="cc-icon">💰</span><div class="cc-text"><h4>少額からOK！気軽に参加できる</h4><p>割り勘方式なので、1,000円前後から参加可能。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="sec-header reveal">
+      <div class="sec-badge">❓ FAQ</div>
+      <h2 class="sec-title">よくある<span class="hl">質問</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">初めてでも参加できますか？</button>
+        <div class="faq-a"><p>もちろんです！初めての方も大歓迎です。申し込み後に担当スタッフから手順をご案内しますので、安心してご参加いただけます。わからないことがあればいつでもご質問ください。</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">費用はいくらかかりますか？</button>
+        <div class="faq-a"><p>参加人数によって変動しますが、1人あたり1,000〜3,000円程度が目安です。多くの方にご参加いただくほど費用は抑えられます。確定額は締め切り後にお知らせします。</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">当日会場に行けない場合でも参加できますか？</button>
+        <div class="faq-a"><p>はい！費用負担のみのご参加も歓迎しています。当日の写真は参加者全員にシェアしますので、遠方の方でも一緒に気持ちを届けることができます。</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">支払い方法は何に対応していますか？</button>
+        <div class="faq-a"><p>PayPay送金、または銀行振込に対応しています。詳細は申し込み後に担当よりご案内します。クレジットカードには現在対応していませんのでご了承ください。</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">フラワースタンドのデザインはどうやって決まりますか？</button>
+        <div class="faq-a"><p>担当がいくつかのデザイン案を用意し、参加者の皆さんに投票していただく形で決定します。日向坂46らしいひまわりカラーを基調にしたデザインが人気です🌻</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">このプロジェクトは公式ですか？</button>
+        <div class="faq-a"><p>このプロジェクトはファン有志による非公式活動です。日向坂46・所属事務所・レコード会社とは一切関係ありません。ファンが自主的に集まって行っている活動となります。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">🌻 日向坂46 祝花ファンプロジェクト</span>
+  このサイトはファン有志による非公式活動紹介・申し込みページです。<br>
+  日向坂46・株式会社SEED&FLOWER・ソニーミュージックとは一切関係ありません。<br>
+  &copy; 2025 Hinatazaka46 Fan Flower Project — Made with 💛 by fans, for fans.
+</footer>
+
+<script>
+/* カーソル */
+const cur=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.hist-card,.step-card,.cc-card,.av-card,.stat-pill').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';cur.style.background='#b45309';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur.style.background='var(--hina)';});
+});
+
+/* 浮遊エモジ */
+const emojis=['🌻','💛','🌸','⭐','🌺','🎀','💐','✨'];
+const fc=document.getElementById('floaties');
+for(let i=0;i<16;i++){
+  const el=document.createElement('div');
+  el.className='floaty';
+  el.textContent=emojis[i%emojis.length];
+  el.style.left=Math.random()*100+'vw';
+  el.style.animationDuration=(14+Math.random()*16)+'s';
+  el.style.animationDelay=(Math.random()*20)+'s';
+  el.style.fontSize=(1+Math.random()*1.4)+'rem';
+  fc.appendChild(el);
+}
+
+/* reveal */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
